@@ -11,7 +11,7 @@ def calcularPromedio((x0,y0), ancho, alto, imagen):
             g += pixelG
             b += pixelB
             cantidad += 1
-    return ((r/cantidad), (g/cantidad), (b/cantidad))
+    return [(r/cantidad), (g/cantidad), (b/cantidad)]
 
 
 def procesarPromedioDeImagen(archivoImagen):
@@ -22,6 +22,6 @@ def procesarPromedioDeImagen(archivoImagen):
 
 archivoPromedios = open("promedios.txt", "w")
 for archivoImagen in os.listdir('./images'):
-    r, g, b = procesarPromedioDeImagen("images/" + archivoImagen)
-    archivoPromedios.write(archivoImagen + " " + str(r) + " " + str(g) + " " + str(b) + "\n")    
+    promedio = procesarPromedioDeImagen("images/" + archivoImagen)
+    archivoPromedios.write(archivoImagen + " " + str(promedio[0]) + " " + str(promedio[1]) + " " + str(promedio[2]) + "\n")
 archivoPromedios.close()
