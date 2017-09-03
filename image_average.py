@@ -17,4 +17,7 @@ def calcularPromedio((x0,y0), ancho, alto, imagen):
 imagen = Image.open('test.png').convert('RGB')
 ancho, alto = imagen.size
 r, g, b = calcularPromedio((0,0), ancho, alto, imagen)
-print r,g,b
+
+archivoPromedios = open("promedios.txt", "w")
+archivoPromedios.write("archivoname " + str(r) + " " + str(g) + " " + str(b) + "\n")
+archivoPromedios.close()
