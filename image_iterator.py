@@ -2,6 +2,7 @@ from PIL import Image
 import random
 import image_average
 import math
+import os
 
 
 
@@ -47,28 +48,37 @@ def apply_to_image(file_name, step_size, function_to_apply):
         for w in range (0, ancho, WS):
             box = (w, h, w+WS, h+HS)
             region = im.crop(box)
-            region = function_to_apply(region)            
+            region = function_to_apply(region)
+            '''
+            anchoImagen, altoImagen = region.size
+            areaInicial = anchoImagen * altoImagen
+            nuevoAncho = HS*anchoImagen/altoImagen
+            nuevaAltura = WS*altoImagen/anchoImagen
+            nuevaArea1 = HS * nuevoAncho
+            nuevaArea2 = WS * nuevaAltura
+            if ( (nuevaArea1) > (nuevaArea2) ):
+                altoImagen = HS
+                anchoImagen = nuevoAncho
+            else:
+                anchoImagen = WS
+                altoImagen = nuevaAltura
+            '''
             region = region.resize((WS, HS), Image.ANTIALIAS)
+            #region = region.resize((anchoImagen, altoImagen), Image.ANTIALIAS)
             im.paste(region, box)
+            #im.paste(region, (w,h))
 
     return im
 
-
-
-
-#FOTO_ORIGINAL = "imagen.png"
-FOTO_ORIGINAL = "mordehuecena.jpg"
-TAMANIO_EN_PIXELS_SUB_IMAGENES = 32
-FUNCION_A_IMPLEMENTAR = dummy_function
-
-
-#cargarListaPromedios
 
 archivoPromedios = open("promedios.txt", "r")
 for linea in archivoPromedios:
     nombreImagen, r, g, b = linea.split(" ")
     diccionarioPromedios[nombreImagen] = [ int(r), int(g), int(b) ]
-#print diccionarioPromedios
+    #print diccionarioPromedios
 
 
-apply_to_image(FOTO_ORIGINAL, TAMANIO_EN_PIXELS_SUB_IMAGENES, FUNCION_A_IMPLEMENTAR).save("out.bmp")
+logo = 0
+for archivoLogo in os.listdir('./logos'):
+    apply_to_image("logos/" + archivoLogo, 16, dummy_function).save( "logo" + str(logo) + ".bmp")
+    logo += 1
