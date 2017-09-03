@@ -1,31 +1,29 @@
 import json
 import requests
-import urllib.request
+import urllib
+
 
 
 searchEngineId = "004100495959909934680:rfmbtoi24pw"
 googleAPIKey = "AIzaSyAqEHiJXh_9HfCqPoQ9nsGwBMHj3UvNF3o"
-parameters = {"q" : "John Cena", "cx" : searchEngineId, "key": googleAPIKey, "searchType" : "image", "start" : 10}
-#MAS DE 10 RESULTADOS
-#https://stackoverflow.com/questions/16925762/getting-more-than-10-results-by-google-custom-search-api-v1-in-java
-#usar start=indice VAN DE 1 A 10, 11 A 20
-#response = requests.get("https://www.googleapis.com/customsearch/v1", params=parameters)
+colors = ["", "red", "orange", "yellow", "green", "teal", "blue", "purple", "pink", "black", "brown", "gray", "white"]
 
+def searchImages(query, startIndex):
+    parameters = {"q" : query, "cx" : searchEngineId, "key": googleAPIKey, "searchType" : "image", "start" : startIndex}
+    response = requests.get("https://www.googleapis.com/customsearch/v1", params=parameters)
+    return response.json()
 
-
-#imagesJson = response.json()
-#print(json.dumps(imagesJson, indent=4, sort_keys=True))
-
-
-json_data=open("respuesta.json").read()
-data = json.loads(json_data)
-#print(json.dumps(data, indent=4, sort_keys=True))
-
-
-imageIndex = 1
-for imageData in data["items"]:
+def saveThumbnail(imageData, imageIndex):
     thumbnailURL = imageData["image"]["thumbnailLink"]
-    thumbnailFileName = "images/jc" + str(imageIndex) + ".jpg"
-    urllib.request.urlretrieve(thumbnailURL, thumbnailFileName)
-    imageIndex = imageIndex + 1
+    thumbnailFileName = "images/" + str(imageIndex) + "_jc" + ".jpg"
+    urllib.urlretrieve(thumbnailURL, thumbnailFileName)
 
+
+imageIndex = 0
+for color in colors:
+    query = "John Cena " + color
+    for i in range(1,50,10):
+        imagesJson = searchImages(query, i)
+        for imageData in imagesJson["items"]:
+            saveThumbnail(imageData, imageIndex)
+            imageIndex = imageIndex + 1
