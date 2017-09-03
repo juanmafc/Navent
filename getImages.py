@@ -1,5 +1,6 @@
 import json
 import requests
+import urllib.request
 
 
 searchEngineId = "004100495959909934680:rfmbtoi24pw"
@@ -20,3 +21,6 @@ json_data=open("respuesta.json").read()
 data = json.loads(json_data)
 #print(json.dumps(data, indent=4, sort_keys=True))
 print(data["items"][0]["image"]["thumbnailLink"])
+thumbnailURL = data["items"][3]["image"]["thumbnailLink"]
+urllib.request.urlretrieve(thumbnailURL, "images/jc1.jpg")
+
