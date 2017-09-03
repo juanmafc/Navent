@@ -20,7 +20,12 @@ parameters = {"q" : "John Cena", "cx" : searchEngineId, "key": googleAPIKey, "se
 json_data=open("respuesta.json").read()
 data = json.loads(json_data)
 #print(json.dumps(data, indent=4, sort_keys=True))
-print(data["items"][0]["image"]["thumbnailLink"])
-thumbnailURL = data["items"][3]["image"]["thumbnailLink"]
-urllib.request.urlretrieve(thumbnailURL, "images/jc1.jpg")
+
+
+imageIndex = 1
+for imageData in data["items"]:
+    thumbnailURL = imageData["image"]["thumbnailLink"]
+    thumbnailFileName = "images/jc" + str(imageIndex) + ".jpg"
+    urllib.request.urlretrieve(thumbnailURL, thumbnailFileName)
+    imageIndex = imageIndex + 1
 
