@@ -9,6 +9,7 @@ import os
 
 diccionarioPromedios = {}
 
+
 def calcularDistancia(color1, color2):
     return math.sqrt( (color1[0] - color2[0])**2 + (color1[1] - color2[1])**2 + (color1[2] - color2[2])**2 )
 
@@ -19,18 +20,13 @@ def encontrarImagenMasCercana(promedios):
 
     for nombreImagen, promediosImagen in diccionarioPromedios.iteritems():
         distancia = 0
-        #print(len(promedios))
         for i in range(0, len(promedios)/3-1):
             offsetPromedio = i * 3
             promedio = [ promedios[offsetPromedio], promedios[offsetPromedio+1], promedios[offsetPromedio+2] ]
             promedioImagen = [ promediosImagen[offsetPromedio], promediosImagen[offsetPromedio+1], promediosImagen[offsetPromedio+2] ]
-            #print(promediosImagen)
             distancia += calcularDistancia(promedioImagen, promedio)
-            #print(distancia)
 
-        #print("Distancia final: " + str(distancia))
         distancia = distancia / (len(promedios)/3)
-        #print("Distancia despues de dividir: " + str(distancia))
         if ( (distancia < distanciaMinima) or ( distanciaMinima == -1 ) ):
             distanciaMinima = distancia
             imagenMasCercana = nombreImagen
@@ -42,7 +38,6 @@ def encontrarImagenMasCercana(promedios):
 # o no la region que le pasan.
 def dummy_function(region):
     ancho, alto = region.size
-    #promedioRegion = image_average.calcularPromedio((0,0), ancho, alto, region)
     promediosRegion = image_average.procesarPromedioDeImagen(region)
     promedios = []
     for colorPromedio in promediosRegion:
@@ -70,20 +65,16 @@ def apply_to_image(file_name, step_size, function_to_apply):
             region = im.crop(box)
             region = function_to_apply(region)
             region = region.resize((WS, HS), Image.ANTIALIAS)
-            #region = region.resize((anchoImagen, altoImagen), Image.ANTIALIAS)
             im.paste(region, box)
-            #im.paste(region, (w,h))
-
     return im
 
 
-archivoPromedios = open("promedios4D.txt", "r")
+archivoPromedios = open("promedios8D.txt", "r")
 for linea in archivoPromedios:
     datosPromedio = linea.split(" ")
     nombreImagen = datosPromedio[0]
     diccionarioPromedios[nombreImagen] = []
     for i in range(1, len(datosPromedio)-1,3):
-        #print(datosPromedio)
         r = datosPromedio[i]
         g = datosPromedio[i+1]
         b = datosPromedio[i+2]
@@ -94,5 +85,5 @@ for linea in archivoPromedios:
 
 logo = 0
 for archivoLogo in os.listdir('./logos'):
-    apply_to_image("logos/" + archivoLogo, 32, dummy_function).save( "logo" + str(logo) + ".bmp")
+    apply_to_image("logos/" + archivoLogo, 25, dummy_function).save( "logo" + str(logo) + ".bmp")
     logo += 1
