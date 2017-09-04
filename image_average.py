@@ -25,7 +25,9 @@ def procesarPromedioDeImagen(imagen):
     stepVertical = alto/int(sys.argv[2])
     for offsetHorizontal in range(0, ancho - 1, stepHorizontal):
         for offsetVertical in range(0, alto - 1, stepVertical):
-            promedios.append(calcularPromedio( (offsetHorizontal,offsetVertical), stepHorizontal, stepVertical, imagen))
+            coloresPromedios = calcularPromedio( (offsetHorizontal,offsetVertical), stepHorizontal, stepVertical, imagen)
+            for color in coloresPromedios:
+                promedios.append(color)
     return  promedios
 
 
@@ -34,6 +36,6 @@ for archivoImagen in os.listdir('./images'):
     promedios = procesarPromedioDeImagen(  Image.open("images/" + archivoImagen).convert('RGB'))
     archivoPromedios.write(archivoImagen)
     for promedio in promedios:
-        archivoPromedios.write(" " + str(promedio[0]) + " " + str(promedio[1]) + " " + str(promedio[2]))
+        archivoPromedios.write( " " + str(promedio) )
     archivoPromedios.write("\n")
 archivoPromedios.close()
