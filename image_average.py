@@ -21,8 +21,11 @@ def procesarPromedioDeImagen(imagen):
     ancho, alto = imagen.size
     promedios = []
 
-    stepHorizontal = ancho/int(sys.argv[1])
-    stepVertical = alto/int(sys.argv[2])
+    seccionesHorizontales = int(sys.argv[1])
+    seccionesVerticales = int(sys.argv[2])
+
+    stepHorizontal = ancho/seccionesHorizontalesc
+    stepVertical = alto/seccionesVerticales
     for offsetHorizontal in range(0, ancho - 1, stepHorizontal):
         for offsetVertical in range(0, alto - 1, stepVertical):
             coloresPromedios = calcularPromedio( (offsetHorizontal,offsetVertical), stepHorizontal, stepVertical, imagen)

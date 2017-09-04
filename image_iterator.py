@@ -20,13 +20,14 @@ def encontrarImagenMasCercana(promedios):
 
     for nombreImagenDiccionario, promediosImagenDiccionario in diccionarioPromedios.iteritems():
         distancia = 0
-        for i in range(0, len(promedios)/3-1):
+        cantidadSecciones = len(promedios)/3
+        for i in range(0, cantidadSecciones - 1):
             offset = i * 3
             promedioSeccionImagen = [ promedios[offset], promedios[offset+1], promedios[offset+2] ]
             promedioSeccionImagenDiccionario = [ promediosImagenDiccionario[offset], promediosImagenDiccionario[offset+1], promediosImagenDiccionario[offset+2] ]
             distancia += calcularDistancia(promedioSeccionImagenDiccionario, promedioSeccionImagen)
 
-        distancia = distancia / (len(promedios)/3)
+        distancia = distancia / cantidadSecciones
         if ( (distancia < distanciaMinima) or ( distanciaMinima == -1 ) ):
             distanciaMinima = distancia
             imagenMasCercana = nombreImagenDiccionario
@@ -39,14 +40,6 @@ def encontrarImagenMasCercana(promedios):
 def dummy_function(region):
     ancho, alto = region.size
     promediosRegion = image_average.procesarPromedioDeImagen(region)
-    '''
-    promedios = []
-    for colorPromedio in promediosRegion:
-        promedios.append(colorPromedio[0])
-        promedios.append(colorPromedio[1])
-        promedios.append(colorPromedio[2])
-    return encontrarImagenMasCercana(promedios)
-    '''
     return encontrarImagenMasCercana(promediosRegion)
 
 
