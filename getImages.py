@@ -5,7 +5,8 @@ import urllib
 
 
 searchEngineId = "004100495959909934680:rfmbtoi24pw"
-googleAPIKey = "AIzaSyAqEHiJXh_9HfCqPoQ9nsGwBMHj3UvNF3o"
+googleAPIKey = "AIzaSyCJfk8-E9DkPRCuWnHlqILzHsda3pjLHfk"
+
 colors = ["", "red", "orange", "yellow", "green", "teal", "blue", "purple", "pink", "black", "brown", "gray", "white"]
 
 def searchImages(query, startIndex):
@@ -22,7 +23,7 @@ def saveThumbnail(imageData, imageIndex):
 imageIndex = 0
 for color in colors:
     query = "John Cena " + color
-    for i in range(1,50,10):
+    for i in range(1,100,10):
         imagesJson = searchImages(query, i)
         for imageData in imagesJson["items"]:
             saveThumbnail(imageData, imageIndex)

@@ -1,5 +1,6 @@
 import Image
 import os
+import sys
 
 def calcularPromedio((x0,y0), ancho, alto, imagen):
     r, g, b = 0, 0, 0
@@ -20,15 +21,15 @@ def procesarPromedioDeImagen(imagen):
     ancho, alto = imagen.size
     promedios = []
 
-    stepHorizontal = ancho/4
-    stepVertical = alto/4
+    stepHorizontal = ancho/int(sys.argv[1])
+    stepVertical = alto/int(sys.argv[2])
     for offsetHorizontal in range(0, ancho - 1, stepHorizontal):
         for offsetVertical in range(0, alto - 1, stepVertical):
             promedios.append(calcularPromedio( (offsetHorizontal,offsetVertical), stepHorizontal, stepVertical, imagen))
     return  promedios
 
 
-archivoPromedios = open("promedios8D.txt", "w")
+archivoPromedios = open("promedios.txt", "w")
 for archivoImagen in os.listdir('./images'):
     promedios = procesarPromedioDeImagen(  Image.open("images/" + archivoImagen).convert('RGB'))
     archivoPromedios.write(archivoImagen)

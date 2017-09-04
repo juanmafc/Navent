@@ -3,7 +3,7 @@ import random
 import image_average
 import math
 import os
-
+import sys
 
 
 
@@ -69,7 +69,10 @@ def apply_to_image(file_name, step_size, function_to_apply):
     return im
 
 
-archivoPromedios = open("promedios8D.txt", "r")
+
+
+
+archivoPromedios = open("promedios.txt", "r")
 for linea in archivoPromedios:
     datosPromedio = linea.split(" ")
     nombreImagen = datosPromedio[0]
@@ -85,5 +88,5 @@ for linea in archivoPromedios:
 
 logo = 0
 for archivoLogo in os.listdir('./logos'):
-    apply_to_image("logos/" + archivoLogo, 25, dummy_function).save( "logo" + str(logo) + ".bmp")
+    apply_to_image("logos/" + archivoLogo, int(sys.argv[3]), dummy_function).save( "logo" + str(logo) + ".bmp")
     logo += 1
