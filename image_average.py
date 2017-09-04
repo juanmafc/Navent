@@ -24,7 +24,7 @@ def procesarPromedioDeImagen(imagen):
     seccionesHorizontales = int(sys.argv[1])
     seccionesVerticales = int(sys.argv[2])
 
-    stepHorizontal = ancho/seccionesHorizontalesc
+    stepHorizontal = ancho/seccionesHorizontales
     stepVertical = alto/seccionesVerticales
     for offsetHorizontal in range(0, ancho - 1, stepHorizontal):
         for offsetVertical in range(0, alto - 1, stepVertical):
