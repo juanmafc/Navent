@@ -14,14 +14,23 @@ def calcularPromedio((x0,y0), ancho, alto, imagen):
     return [(r/cantidad), (g/cantidad), (b/cantidad)]
 
 
-def procesarPromedioDeImagen(archivoImagen):
-    imagen = Image.open(archivoImagen).convert('RGB')
+def procesarPromedioDeImagen(imagen):
     ancho, alto = imagen.size
-    return calcularPromedio((0,0), ancho, alto, imagen)
+    promedios = []
+
+    stepHorizontal = ancho/2
+    stepVertical = alto/2
+    for offsetHorizontal in range(0, ancho - 1, stepHorizontal):
+        for offsetVertical in range(0, alto - 1, stepVertical):
+            promedios.append(calcularPromedio( (offsetHorizontal,offsetVertical), stepHorizontal, stepVertical, imagen))
+    return  promedios
 
 
-archivoPromedios = open("promedios.txt", "w")
+archivoPromedios = open("promedios4D.txt", "w")
 for archivoImagen in os.listdir('./images'):
-    promedio = procesarPromedioDeImagen("images/" + archivoImagen)
-    archivoPromedios.write(archivoImagen + " " + str(promedio[0]) + " " + str(promedio[1]) + " " + str(promedio[2]) + "\n")
+    promedios = procesarPromedioDeImagen(  Image.open("images/" + archivoImagen).convert('RGB'))
+    archivoPromedios.write(archivoImagen)
+    for promedio in promedios:
+        archivoPromedios.write(" " + str(promedio[0]) + " " + str(promedio[1]) + " " + str(promedio[2]))
+    archivoPromedios.write("\n")
 archivoPromedios.close()
